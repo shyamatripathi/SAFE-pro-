@@ -15,7 +15,7 @@ class HealthProfile(models.Model):
 
     severity = models.CharField(max_length=20, blank=True)
 
-    # ---------- Utility Methods ----------
+    # Utility Methods 
 
     def calculate_bmi(self):
         if self.height and self.weight:
@@ -43,7 +43,7 @@ class HealthProfile(models.Model):
         if self.heart_history:
             score += 3
 
-        # ---------- Symptom-based scoring ----------
+        # Symptom-based scoring 
 
         symptom_weights = {
             "chest pain": 3,
@@ -62,7 +62,7 @@ class HealthProfile(models.Model):
             if symptom in symptom_text:
                 score += weight
 
-        # ---------- Final Severity Classification ----------
+        # Final Severity Classification 
 
         if score >= 8:
             return "High"
