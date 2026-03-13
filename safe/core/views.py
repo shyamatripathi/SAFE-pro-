@@ -96,3 +96,26 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect("login")
+@login_required
+def update_health(request):
+
+    user = request.user
+    profile = HealthProfile.objects.get(user=user)
+
+    if request.method == "POST":
+        user_form = HealthUpdateForm(request.POST, instance=user)
+        profile_form = HealthUpdateForm(request.POST, instance=profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return redirect("dashboard")
+
+    else:
+        user_form = HealthUpdateForm(instance=user)
+        profile_form = HealthUpdateForm(instance=profile)
+
+    return render(request, "update_health.html", {
+        "user_form": user_form,
+        "profile_form": profile_form
+    })    
